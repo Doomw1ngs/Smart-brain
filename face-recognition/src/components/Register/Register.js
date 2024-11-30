@@ -35,7 +35,7 @@ class Register extends React.Component {
       .then((Response) => Response.json())
       .then((user) => {
         // console.log('user received from backend:', user);
-        if (user) {
+        if (user.id) {
           this.props.loadUser(user);
           this.props.onRouteChange('home');
         }
