@@ -2,11 +2,11 @@ import express from 'express';
 import serverless from 'serverless-http';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
-import db from './controllers/db.js';
-import handleRegister from './controllers/register.js';
-import handleSignin from './controllers/signin.js';
-import handleProfile from './controllers/profile.js';
-import handleImage from './controllers/image.js';
+import db from '../../controllers/db.js';
+import handleRegister from '../../controllers/register.js';
+import handleSignin from '../../controllers/signin.js';
+import handleProfile from '../../controllers/profile.js';
+import handleImage from '../../controllers/image.js';
 import dotenv from 'dotenv';
 import { body, validationResult } from 'express-validator';
 
