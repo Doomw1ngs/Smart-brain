@@ -1,26 +1,28 @@
-const handleSignin = (req, res, db, bcrypt) => {
+const handleSignin = async (req, res, db, bcrypt) => {
   const { email, password } = req.body;
 
-  db.select('email', 'hash')
-    .from('login')
-    .where('email', '=', email)
-    .then((data) => {
-      bcrypt.compare(password, data[0].hash).then((isValid) => {
-        if (isValid) {
-          return db
-            .select('*')
-            .from('users')
-            .where('email', '=', email)
-            .then((user) => {
-              res.json(user[0]);
-            })
-            .catch((err) => res.status(400).json('unable to get user'));
-        } else {
-          res.status(400).json('wrong credentials');
-        }
-      });
-    })
-    .catch((err) => res.status(400).json('wrong credentials'));
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    return res.status(400).json('Wrong credentials');
+  }
+
+  // Retrieve user profile from 'users' table
+  const { data: userProfile, error: profileError } = await supabase
+    .from('users')
+    .select('*')
+    .eq('email', email)
+    .single();
+
+  if (profileError) {
+    return res.status(400).json('Unable to get user');
+  }
+
+  // Respond with user profile
+  res.json(userProfile);
 };
 
 export default handleSignin;

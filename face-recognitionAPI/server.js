@@ -1,7 +1,6 @@
 import express, { response } from 'express';
-import bcrypt from 'bcryptjs';
 import cors from 'cors';
-import db from './controllers/db.js';
+import supabase from './controllers/db.js';
 import handleRegister from './controllers/register.js';
 import handleSignin from './controllers/signin.js';
 import handleProfile from './controllers/profile.js';
@@ -76,20 +75,20 @@ app.post('/clarifai', async (req, res) => {
 });
 
 app.post('/signin', validateUser, (req, res) => {
-  handleSignin(req, res, db, bcrypt);
+  handleSignin(req, res, supabase);
 });
 
 app.post('/register', validateUser, (req, res) => {
   // console.log('register endpoint hit');
-  handleRegister(req, res, bcrypt, db);
+  handleRegister(req, res, supabase);
 });
 
 app.get('/profile/:id', (req, res) => {
-  handleProfile(req, res, db);
+  handleProfile(req, res, supabase);
 });
 
 app.put('/image', (req, res) => {
-  handleImage(req, res, db);
+  handleImage(req, res, supabase);
 });
 
 const PORT = process.env.PORT || 4000;

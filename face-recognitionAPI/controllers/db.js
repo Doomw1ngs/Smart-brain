@@ -1,14 +1,7 @@
-import knex from 'knex';
+import { createClient } from '@supabase/supabase-js';
 
-const db = knex({
-  client: 'pg',
-  connection: {
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: process.env.DB_PORT || 5432,
-    user: process.env.DB_USER || 'doomw1ngs',
-    password: process.env.DB_PASSWORD || 'Fg2380',
-    database: process.env.DB_NAME || 'smart-brain',
-  },
-});
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default db;
+export default supabase;
